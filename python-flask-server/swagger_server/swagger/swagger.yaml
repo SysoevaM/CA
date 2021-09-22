@@ -1,0 +1,95 @@
+---
+swagger: "2.0"
+info:
+  description: "Данный сервис позволяет передать информацию о заказе."
+  version: "1.0.0"
+  title: "API книг издательского дома"
+  contact:
+    email: "info@book.ru"
+host: "book.ru"
+basePath: "/v1"
+paths:
+  /order:
+    post:
+      tags:
+      - "order"
+      summary: "crete order"
+      description: "crete new order"
+      operationId: "create_order"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "order"
+        description: "new order"
+        required: true
+        schema: {}
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Order"
+        "400":
+          description: "Error"
+      x-swagger-router-controller: "swagger_server.controllers.order_controller"
+definitions:
+  OrderLine:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      productId:
+        type: "integer"
+      price:
+        type: "number"
+        format: "float"
+      priceWithVat:
+        type: "number"
+        format: "float"
+      quantity:
+        type: "integer"
+      discount:
+        type: "number"
+        format: "float"
+    example:
+      priceWithVat: 2.302136
+      quantity: 7
+      productId: 5
+      price: 5.637377
+      discount: 9.301444
+      id: 1
+  Order:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      order_number:
+        type: "string"
+      orderDate:
+        type: "string"
+      customerId:
+        type: "integer"
+      orderLines:
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderLine"
+    example:
+      orderLines:
+      - priceWithVat: 2.302136
+        quantity: 7
+        productId: 5
+        price: 5.637377
+        discount: 9.301444
+        id: 1
+      - priceWithVat: 2.302136
+        quantity: 7
+        productId: 5
+        price: 5.637377
+        discount: 9.301444
+        id: 1
+      order_number: "order_number"
+      customerId: 6
+      id: 0
+      orderDate: "orderDate"
